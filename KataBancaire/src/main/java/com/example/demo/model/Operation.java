@@ -20,8 +20,7 @@ import lombok.Data;
  public class Operation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "operation_id")
     private Integer operationId;
     

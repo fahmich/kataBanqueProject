@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/operations/")
 public class OperationController {
 
@@ -71,26 +73,17 @@ public class OperationController {
     }
 
     @GetMapping("/ops")
-    public ResponseEntity<List<Operation>> getOperationInfo(
-    		@RequestParam(value = "accountNumber", required = true) int accountNumber 
-                                                     ) throws AccountNotFoundException {  
-
-        Optional<Account> optionalAccount = accountService.getAccount(accountNumber);
-        if (! optionalAccount.isPresent()) {
-            throw new AccountNotFoundException(String.valueOf(accountNumber));
-        }
-        Account account = optionalAccount.get();
+    public ResponseEntity<List<Operation>> getOperationInfo( ) throws AccountNotFoundException {  
  
        List<Operation> operationHistory = operationService.getAllOperation();
- 
+       LOGGER.info("operationHistory:"+ operationHistory );
+
          return ResponseEntity.status(HttpStatus.OK).body(operationHistory);
     }
 
     @GetMapping
    public ResponseEntity<List<Operation>> getAllOperationForAClient(
-                                                     @RequestParam(value = "accountNumber", required = true) int accountNumber,
-                                                     @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                                     @RequestParam(value = "size", required = false, defaultValue = "10") int size
+                                                     @RequestParam(value = "accountNumber", required = true) int accountNumber  
                                                     ) throws AccountNotFoundException {
  
     LOGGER.info("getAllOperationForAClient() accountNumber:  "+ accountNumber);
@@ -101,7 +94,7 @@ public class OperationController {
         }
         Account account = optionalAccount.get();
  
-       List<Operation> operationHistory = operationService.getAllOperationForAccount(account, page, size);
+       List<Operation> operationHistory = operationService.getAllOperationForAccount(account);
  
          return ResponseEntity.status(HttpStatus.OK).body(operationHistory);
     }
@@ -118,6 +111,17 @@ public class OperationController {
         AccountPositionResponse accountPositionResponse = new AccountPositionResponse(position);
 
         return ResponseEntity.status(HttpStatus.OK).body(accountPositionResponse);
+    }
+    @GetMapping(path = "/ops/{numOperation}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> getAccountPositionByNumOperation(@PathVariable("numOperation") final Integer numOperation) throws AccountNotFoundException {
+
+       LOGGER.info("getAccountPositionByNumOperation() numOperation: "+ numOperation);
+
+       Integer position = operationService.getOperationById(numOperation);
+      
+        LOGGER.info("get position: "+ position);
+     
+        return ResponseEntity.status(HttpStatus.OK).body(position);
     }
 
 }

@@ -33,12 +33,19 @@ public class OperationServiceImpl implements OperationService {
         return operationRepository.save(operation);
     }
 
-    public List<Operation> getAllOperationForAccount(Account account, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"date"));
-        return operationRepository.findByAccount(account, pageRequest);
+    public List<Operation> getAllOperationForAccount(Account account ) {
+         return operationRepository.findByAccount(account );
     }
     
     public List<Operation> getAllOperation() {
          return (List<Operation>) operationRepository.findAll();
     }
+    
+    public Integer getOperationById(Integer operationId) {
+        List<Operation> a= operationRepository.findByOperationId( operationId);
+         Integer accountNumber=a.get(0).getAccount().getAccountNumber();
+    	return accountNumber;
+   } 
+    
+    
 }

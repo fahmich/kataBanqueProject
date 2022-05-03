@@ -1,0 +1,37 @@
+﻿<h2 *ngIf="isAddMode">Deposit /Withdrawal</h2>
+<!-- <h2 *ngIf="!isAddMode">Edit/Update Person</h2> -->
+
+
+<form [formGroup]="formulaire" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+        <div class="form-group col-5">
+            <label>Account Number</label>
+            <input type="text" list="accountNumber" formControlName="accountNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.accountNumber.errors }" />
+            <datalist id="accountNumber">
+                <option>52810848</option>
+                <option>92810849</option> 
+                </datalist>
+            <div *ngIf="submitted && f.accountNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.accountNumber.errors.required">Account Number is required</div>
+            </div>
+        </div>
+           
+        <div class="form-group col-5">
+            <label>Amount</label>
+            <input type="number" formControlName="operationAmount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.operationAmount.errors }" />
+            <div *ngIf="submitted && f.operationAmount.errors" class="invalid-feedback">
+                <div *ngIf="f.operationAmount.errors.required"> Amount is required</div>
+            </div>
+        </div>
+    </div>  
+  
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Save
+        </button>
+        <a routerLink="/persons" class="btn btn-link">Cancel</a>
+    </div>
+</form>
+
+

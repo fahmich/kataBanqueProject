@@ -1,0 +1,43 @@
+<div class="card">
+    <h5 class="card-header">Information </h5>
+    <div class="card-body">
+      <h5 class="card-title">Num account : {{numAccount}}</h5>
+      <h5 class="card-title">Type Operation:{{accountDetails.operationType}}</h5>
+      <h5 class="card-title">Value: {{accountDetails.operationValue}}</h5>
+      <h5 class="card-title">Balance: {{accountDetails.balance}}</h5>
+      
+      <p class="card-text">Date operation:{{accountDetails.date |date :'mediumDate'}}</p>
+       <a routerLink="/" class="btn btn-primary">return</a>
+    </div>
+  </div>
+<br>
+  <h3><i class="fa fa-list" aria-hidden="true"></i>  Details Account History:{{numAccount}}</h3>
+<br>
+  <table class="table table-striped table-hover">
+    <thead class="bg-info">
+        <tr>
+            <th style="width: 30%">Type Operation</th>
+            <th style="width: 30%">Value</th>
+            <th style="width: 30%">Date</th> 
+            <th style="width: 30%">Balance</th> 
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person  of persons" (onclick)="redirectTo(person.id)">
+            <td>{{person.operationType}}</td>
+            <td>{{person.operationValue}}</td>
+            <td>{{person.date |date :'mediumDate'}}</td> 
+            <td>{{person.balance}}</td>
+             
+           
+        </tr>
+        <tr *ngIf="!persons">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+ 
+

@@ -10,7 +10,8 @@ public interface OperationService {
 
     Operation registerOperation(NewOperationRequest newOperationRequest, Account account);
 
-    List<Operation> getAllOperationForAccount(Account account, int page, int size);
+    List<Operation> getAllOperationForAccount(Account account );
     
      public List<Operation> getAllOperation() ;
+     public Integer getOperationById(Integer operationId);
 }
